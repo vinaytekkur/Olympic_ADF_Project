@@ -1,0 +1,41 @@
+{
+	"name": "RawLayer_Athelets_Source_file",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RawLayer_Linked_Service",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"file_name": {
+				"type": "string",
+				"defaultValue": "Medals.csv"
+			},
+			"date_folder": {
+				"type": "string",
+				"defaultValue": "date_part=2024-01-31"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().file_name",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat('gen2_files/',dataset().date_folder)",
+					"type": "Expression"
+				},
+				"fileSystem": "olympicrawlayer"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,71 @@
+{
+	"name": "EntriesGender_DataFlow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "RawLayer_Parquet_EntriesGender_File",
+						"type": "DatasetReference"
+					},
+					"name": "EntriesGenderParquetSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Pub_Sink_Parquet_Output",
+						"type": "DatasetReference"
+					},
+					"name": "EntriesGenderOutput"
+				}
+			],
+			"transformations": [
+				{
+					"name": "CastTotalToInt"
+				},
+				{
+					"name": "SelectColumns"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Discipline as string,",
+				"          Female as long,",
+				"          Male as long,",
+				"          Total as long,",
+				"          date_part as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet',",
+				"     partitionBy('hash', 1)) ~> EntriesGenderParquetSource",
+				"EntriesGenderParquetSource cast(output(",
+				"          Female as integer,",
+				"          Male as integer,",
+				"          Total as integer",
+				"     ),",
+				"     errors: true) ~> CastTotalToInt",
+				"CastTotalToInt select(mapColumn(",
+				"          Discipline,",
+				"          Female,",
+				"          Male,",
+				"          Total",
+				"     ),",
+				"     partitionBy('hash', 1),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectColumns",
+				"SelectColumns sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> EntriesGenderOutput"
+			]
+		}
+	}
+}

@@ -1,0 +1,56 @@
+{
+	"name": "Teams_Dataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SnowFlake_RawLayer_Parquet_Data",
+						"type": "DatasetReference"
+					},
+					"name": "RawLayerSnowFlakeData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Pub_Sink_Parquet_Output",
+						"type": "DatasetReference"
+					},
+					"name": "SnowFlakeOutput"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RegionalEventsCount"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          TEAMNAME as string,",
+				"          DISCIPLINE as string,",
+				"          COUNTRY as string,",
+				"          EVENT as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet',",
+				"     partitionBy('hash', 1)) ~> RawLayerSnowFlakeData",
+				"RawLayerSnowFlakeData aggregate(groupBy(TEAMNAME,",
+				"          COUNTRY),",
+				"     Total_Events_Count = countDistinct(EVENT),",
+				"     partitionBy('hash', 1)) ~> RegionalEventsCount",
+				"RegionalEventsCount sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SnowFlakeOutput"
+			]
+		}
+	}
+}

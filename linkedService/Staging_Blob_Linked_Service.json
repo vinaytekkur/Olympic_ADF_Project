@@ -1,0 +1,22 @@
+{
+	"name": "Staging_Blob_Linked_Service",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"sasUri": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KeyVault_Linked_Service",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "staging-blob-SAS-token"
+			}
+		},
+		"connectVia": {
+			"referenceName": "vgtsolutionsintegrationruntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

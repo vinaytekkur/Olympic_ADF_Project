@@ -1,0 +1,42 @@
+{
+	"name": "Source_Snowflake_dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Source_Snowflake_Linked_Service",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeTable",
+		"schema": [
+			{
+				"name": "TEAMNAME",
+				"type": "VARCHAR",
+				"precision": 34,
+				"scale": 0
+			},
+			{
+				"name": "DISCIPLINE",
+				"type": "VARCHAR",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "COUNTRY",
+				"type": "VARCHAR",
+				"precision": 26,
+				"scale": 0
+			},
+			{
+				"name": "EVENT",
+				"type": "VARCHAR",
+				"precision": 32,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "OLYMPIC_SCHEMA",
+			"table": "TEAMS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

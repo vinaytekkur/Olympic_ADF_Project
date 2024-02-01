@@ -1,0 +1,50 @@
+{
+	"name": "SnowFlake_RawLayer_Parquet_Data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RawLayer_Linked_Service",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"folder_name": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@concat('snowflake/',dataset().folder_name)",
+					"type": "Expression"
+				},
+				"fileSystem": "olympicrawlayer"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "Discipline",
+				"type": "UTF8"
+			},
+			{
+				"name": "Female",
+				"type": "INT_64"
+			},
+			{
+				"name": "Male",
+				"type": "INT_64"
+			},
+			{
+				"name": "Total",
+				"type": "INT_64"
+			},
+			{
+				"name": "date_part",
+				"type": "UTF8"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

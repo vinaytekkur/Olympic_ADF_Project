@@ -1,0 +1,11 @@
+{
+	"name": "KeyVault_Linked_Service",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://keyvaultvgtsol.vault.azure.net/"
+		}
+	}
+}

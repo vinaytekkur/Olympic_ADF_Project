@@ -1,0 +1,36 @@
+{
+	"name": "Send_Email_Pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get_Logic_App_URL",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://prod-42.eastus.logic.azure.com:443/workflows/e2365ebe0af3437c95742bd0b7b43145/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=eGBdHMpJTKyprU1v0IrTVCDlgvgz7X60MM_DS3P2Vz0",
+					"body": {
+						"value": "{\n    \"Status\": \"@{pipeline().parameters.msg}\",\n    \"Pipeline_name\": \"@{pipeline().Pipeline}\",\n    \"Pipeline_trigger_time\": \"@{pipeline().TriggerTime}\",\n    \"Pipeline_triggered_by\": \"@{pipeline()?.TriggeredByPipelineName}\"\n}",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"msg": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-01-31T17:57:16Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

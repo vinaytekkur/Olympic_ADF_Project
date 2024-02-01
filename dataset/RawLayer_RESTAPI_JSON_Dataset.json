@@ -1,0 +1,24 @@
+{
+	"name": "RawLayer_RESTAPI_JSON_Dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RawLayer_Linked_Service",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "countries.json",
+				"folderPath": {
+					"value": "@concat('REST_API/date_part=', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+					"type": "Expression"
+				},
+				"fileSystem": "olympicrawlayer"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

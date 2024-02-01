@@ -1,0 +1,30 @@
+{
+	"name": "Pub_Sink_Parquet_Output",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "PublishLayer_Linked_Service",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"folder_name": {
+				"type": "string",
+				"defaultValue": "EntriesGender"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@dataset().folder_name",
+					"type": "Expression"
+				},
+				"fileSystem": "olympicpublishlayer"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

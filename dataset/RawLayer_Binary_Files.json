@@ -1,0 +1,19 @@
+{
+	"name": "RawLayer_Binary_Files",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RawLayer_Linked_Service",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "gen2_files",
+				"fileSystem": "olympicrawlayer"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,9 @@
+{
+	"name": "adfvgtsolutions",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "285711a6-067c-4573-b574-bb503c100a17",
+		"tenantId": "514382e5-0248-4437-9dea-5f2f0e823aab"
+	}
+}

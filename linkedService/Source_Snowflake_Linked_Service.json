@@ -1,0 +1,24 @@
+{
+	"name": "Source_Snowflake_Linked_Service",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Snowflake",
+		"typeProperties": {
+			"authenticationType": "Basic",
+			"connectionString": "jdbc:snowflake://iia66746.east-us-2.azure.snowflakecomputing.com/?user=VINAYTEKKUR&db=SOURCE_VGTSOLUTIONS&warehouse=COMPUTE_WH&role=ACCOUNTADMIN",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KeyVault_Linked_Service",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "snowflake-password"
+			}
+		},
+		"connectVia": {
+			"referenceName": "vgtsolutionsintegrationruntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

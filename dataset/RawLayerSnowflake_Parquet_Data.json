@@ -1,0 +1,38 @@
+{
+	"name": "RawLayerSnowflake_Parquet_Data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RawLayer_Linked_Service",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "snowflake",
+				"fileSystem": "olympicrawlayer"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "TEAMNAME",
+				"type": "UTF8"
+			},
+			{
+				"name": "DISCIPLINE",
+				"type": "UTF8"
+			},
+			{
+				"name": "COUNTRY",
+				"type": "UTF8"
+			},
+			{
+				"name": "EVENT",
+				"type": "UTF8"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

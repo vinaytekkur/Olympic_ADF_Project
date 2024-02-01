@@ -1,0 +1,26 @@
+{
+	"name": "Source_Linked_Sevice",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://sourcestoragephase2.dfs.core.windows.net/",
+			"tenant": "514382e5-0248-4437-9dea-5f2f0e823aab",
+			"servicePrincipalId": "6672467d-904b-48c2-bd4a-e7b4bac5bea6",
+			"servicePrincipalCredentialType": "ServicePrincipalKey",
+			"servicePrincipalCredential": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KeyVault_Linked_Service",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "client-spn-secret-val"
+			}
+		},
+		"connectVia": {
+			"referenceName": "vgtsolutionsintegrationruntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

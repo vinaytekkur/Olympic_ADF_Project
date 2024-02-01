@@ -1,0 +1,17 @@
+{
+	"name": "Source_REST_API_Linked_Service",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://countryapi.io/api/all",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		},
+		"connectVia": {
+			"referenceName": "vgtsolutionsintegrationruntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

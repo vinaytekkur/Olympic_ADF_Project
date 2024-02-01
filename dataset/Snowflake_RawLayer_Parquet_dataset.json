@@ -1,0 +1,45 @@
+{
+	"name": "Snowflake_RawLayer_Parquet_dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RawLayer_Linked_Service",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@concat('snowflake/date_part=', formatDateTime(utcNow(), 'yyyy-MM-dd'))",
+					"type": "Expression"
+				},
+				"fileSystem": "olympicrawlayer"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "Discipline",
+				"type": "UTF8"
+			},
+			{
+				"name": "Female",
+				"type": "INT_64"
+			},
+			{
+				"name": "Male",
+				"type": "INT_64"
+			},
+			{
+				"name": "Total",
+				"type": "INT_64"
+			},
+			{
+				"name": "date_part",
+				"type": "UTF8"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

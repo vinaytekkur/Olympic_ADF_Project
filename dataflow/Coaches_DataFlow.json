@@ -1,0 +1,53 @@
+{
+	"name": "Coaches_DataFlow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "RawLayer_Athelets_Source_file",
+						"type": "DatasetReference"
+					},
+					"name": "CoachesRawLayerSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Pub_Sink_Parquet_Output",
+						"type": "DatasetReference"
+					},
+					"name": "CoachesOutput"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NameLowerNullsToNA"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Name as string,",
+				"          Country as string,",
+				"          Discipline as string,",
+				"          Event as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> CoachesRawLayerSource",
+				"CoachesRawLayerSource derive(Name = lower(Name),",
+				"          Event = iifNull(Event, 'NA'),",
+				"     partitionBy('hash', 1)) ~> NameLowerNullsToNA",
+				"NameLowerNullsToNA sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> CoachesOutput"
+			]
+		}
+	}
+}

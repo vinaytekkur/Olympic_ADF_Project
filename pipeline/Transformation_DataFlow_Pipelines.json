@@ -1,0 +1,259 @@
+{
+	"name": "Transformation_DataFlow_Pipelines",
+	"properties": {
+		"activities": [
+			{
+				"name": "Athelets_DataFlow",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "GetFolderNames",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "Athelets_Dataflow",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"RawLayerAtheletsData": {
+								"file_name": "Athletes.csv",
+								"date_folder": {
+									"value": "@variables('date_part_folder')",
+									"type": "Expression"
+								}
+							},
+							"AtheletsOutput": {
+								"folder_name": "Athelets"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Get_RawLayer_FolderNames",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "RawLayer_Binary_Files",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "BinaryReadSettings"
+					}
+				}
+			},
+			{
+				"name": "GetFolderNames",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get_RawLayer_FolderNames",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get_RawLayer_FolderNames').output.childItems",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "date_folder_name",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "date_part_folder",
+								"value": {
+									"value": "@item().name",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Coaches_DataFlow",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "GetFolderNames",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "Coaches_DataFlow",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"CoachesRawLayerSource": {
+								"file_name": "Coaches.csv",
+								"date_folder": {
+									"value": "@variables('date_part_folder')",
+									"type": "Expression"
+								}
+							},
+							"CoachesOutput": {
+								"folder_name": "Coaches"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Medals_Dataflow",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "GetFolderNames",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "Medals_DataFlow",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"MedalsRawLayerSource": {
+								"file_name": "Medals.csv",
+								"date_folder": {
+									"value": "@variables('date_part_folder')",
+									"type": "Expression"
+								}
+							},
+							"MedalsOutput": {
+								"folder_name": "Medals"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "EntriesGender_DataFlow",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "GetFolderNames",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "EntriesGender_DataFlow",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"EntriesGenderParquetSource": {
+								"folder_name": {
+									"value": "@variables('date_part_folder')",
+									"type": "Expression"
+								},
+								"file_name": "EntriesGender.parquet"
+							},
+							"EntriesGenderOutput": {
+								"folder_name": "EntriesGender"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"variables": {
+			"date_part_folder": {
+				"type": "String"
+			},
+			"snoflake_date_part": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-02-01T10:36:43Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

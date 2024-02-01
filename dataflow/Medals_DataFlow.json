@@ -1,0 +1,93 @@
+{
+	"name": "Medals_DataFlow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "RawLayer_Athelets_Source_file",
+						"type": "DatasetReference"
+					},
+					"name": "MedalsRawLayerSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Pub_Sink_Parquet_Output",
+						"type": "DatasetReference"
+					},
+					"name": "MedalsOutput"
+				}
+			],
+			"transformations": [
+				{
+					"name": "GoldRank"
+				},
+				{
+					"name": "SilverRank"
+				},
+				{
+					"name": "BronzeRank"
+				},
+				{
+					"name": "SelectColumns"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Rank as short,",
+				"          Team_Country as string,",
+				"          Gold as short,",
+				"          Silver as short,",
+				"          Bronze as short,",
+				"          Total as short,",
+				"          {Rank by Total} as short",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> MedalsRawLayerSource",
+				"MedalsRawLayerSource rank(asc(Gold, true),",
+				"     caseInsensitive: true,",
+				"     output(Rank_By_Gold as long),",
+				"     dense: true,",
+				"     partitionBy('hash', 1)) ~> GoldRank",
+				"GoldRank rank(desc(Silver, true),",
+				"     caseInsensitive: true,",
+				"     output(Rank_By_Silver as long),",
+				"     dense: true,",
+				"     partitionBy('hash', 1)) ~> SilverRank",
+				"SilverRank rank(desc(Bronze, true),",
+				"     caseInsensitive: true,",
+				"     output(Rank_By_Bronze as long),",
+				"     dense: true,",
+				"     partitionBy('hash', 1)) ~> BronzeRank",
+				"BronzeRank select(mapColumn(",
+				"          Rank,",
+				"          Team_Country,",
+				"          Gold,",
+				"          Silver,",
+				"          Bronze,",
+				"          Total,",
+				"          Rank_By_Total = {Rank by Total},",
+				"          Rank_By_Gold,",
+				"          Rank_By_Silver,",
+				"          Rank_By_Bronze",
+				"     ),",
+				"     partitionBy('hash', 1),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectColumns",
+				"SelectColumns sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> MedalsOutput"
+			]
+		}
+	}
+}

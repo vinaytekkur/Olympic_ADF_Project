@@ -1,0 +1,59 @@
+{
+	"name": "RawLayer_Parquet_EntriesGender_File",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RawLayer_Linked_Service",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"folder_name": {
+				"type": "string",
+				"defaultValue": "date_part=2024-01-31"
+			},
+			"file_name": {
+				"type": "string",
+				"defaultValue": "EntriesGender.parquet"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().file_name",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat('gen2_files/',dataset().folder_name)",
+					"type": "Expression"
+				},
+				"fileSystem": "olympicrawlayer"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "Discipline",
+				"type": "UTF8"
+			},
+			{
+				"name": "Female",
+				"type": "INT_64"
+			},
+			{
+				"name": "Male",
+				"type": "INT_64"
+			},
+			{
+				"name": "Total",
+				"type": "INT_64"
+			},
+			{
+				"name": "date_part",
+				"type": "UTF8"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

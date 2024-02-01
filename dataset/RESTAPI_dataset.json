@@ -1,0 +1,24 @@
+{
+	"name": "RESTAPI_dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Source_REST_API_Linked_Service",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"relative_url": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "@dataset().relative_url",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
