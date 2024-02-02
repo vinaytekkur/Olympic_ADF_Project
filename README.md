@@ -35,10 +35,12 @@ Pipeline respective to dataflows
 
 Master Pipeline which triggers email notification with information such as (Status of pipeline, Trigger time, pipeline executed by etc)
 ![image](https://github.com/vinaytekkur/Olympic_ADF_Project/assets/156997918/7fc1d797-4afa-49ca-a39f-475487b954a0)
-Azure Gen 2 Master data pipeline
+
+ Azure Gen 2 Master data pipeline
 
 
 ![image](https://github.com/vinaytekkur/Olympic_ADF_Project/assets/156997918/dd6bc54a-a943-458d-9b71-c81c9044388e)
+
 Snowflake Master data pipeline
 
 
