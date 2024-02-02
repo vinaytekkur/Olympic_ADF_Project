@@ -13,7 +13,8 @@ Using Olympic created azure data pipeline end-to-end atchitechture which provide
 6) SQL Server
 
 **Project describes following Layers:**
-**Ingestion Layer : ** We have data coming from following sources:
+**Ingestion Layer : ** 
+We have data coming from following sources:
 1) Azure Storage Gen 2 - Contains day wise files(in csv format) which is uploaded by some external process.
 2) Snowflake - We have some tables stored in snowfalke DB.
 3) REST API - using Country API to map all respective contries.
@@ -31,8 +32,9 @@ Published layer will have respective container based on data files(Example: if d
 Pipeline respective to dataflows
 ![image](https://github.com/vinaytekkur/Olympic_ADF_Project/assets/156997918/c02b8f1b-86f6-41b3-9f4b-353bf95c6179)
 
+
 Master Pipeline which triggers email notification with information such as (Status of pipeline, Trigger time, pipeline executed by etc)
-![image](https://github.com/vinaytekkur/Olympic_ADF_Project/assets/156997918/ef33c156-d633-4bea-8b16-a73440b39284)
+![image](https://github.com/vinaytekkur/Olympic_ADF_Project/assets/156997918/56e4b242-0967-4519-9804-d4a3df0b2837)
 Azure Gen 2 Master data pipeline
 
 ![image](https://github.com/vinaytekkur/Olympic_ADF_Project/assets/156997918/dd6bc54a-a943-458d-9b71-c81c9044388e)
